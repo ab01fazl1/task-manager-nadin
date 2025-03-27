@@ -6,12 +6,17 @@ import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
+import { UserRepository } from 'src/users/users.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(UserRepository)
+    private readonly userRepo: UserRepository,
+    
     private readonly jwtService: JwtService,
   ) {}
 

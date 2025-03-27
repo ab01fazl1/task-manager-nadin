@@ -24,3 +24,4 @@ export class Task {
   @UpdateDateColumn()
   updatedAt: Date;
 }
+  
