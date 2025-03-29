@@ -15,7 +15,12 @@ export class Task {
   @Column({ nullable: true })
   attachment: string;
 
-  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
+// bad realationship design, chnage later, also change in user entity
+  @ManyToOne(
+    () => User,
+    user => user.tasks,
+    { eager: false },
+  )
   user: User;
 
   @CreateDateColumn()

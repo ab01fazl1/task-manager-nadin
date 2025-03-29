@@ -21,8 +21,9 @@ export class UsersController {
   @ApiOperation({ summary: 'Assign role (Admin only)' })
   @Put(':id/role')
   @UseGuards(AdminGuard)
-  async assignRole(@Param('id') userId: number, @Body('role') role: UserRole, @Request() req) {
-    return this.usersService.assignRole(userId, role, req.user.id);
+  async assignRole(@Param('id') userId: number, @Request() req) {
+    console.log(req)
+    return this.usersService.assignRole(userId, req.user.id);
   }
 
   @ApiOperation({ summary: 'Delete user (Admin only)' })
@@ -44,5 +45,11 @@ export class UsersController {
   @UseGuards(AdminGuard)
   async getAllUsers() {
     return this.usersService.findAll();
+  }
+
+  @ApiOperation({ summary: 'Get current users tasks' })
+  @Get(':id/tasks')
+  async getUserTasks(@Param('id') id: number) {
+    return this.usersService.findUserTasks(id);
   }
 }

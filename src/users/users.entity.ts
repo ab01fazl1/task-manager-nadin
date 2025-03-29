@@ -2,8 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, Up
 import { Task } from '../tasks/tasks.entity';
 
 export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
+  ADMIN = 'ADMIN',
+  USER = 'USER',
 }
 
 @Entity()
@@ -26,8 +26,14 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
-  @OneToMany(() => Task, (task) => task.user, { cascade: true })
+  @OneToMany(
+    () => Task,
+    task => task.user,
+    { eager: true , cascade: true},
+  )
   tasks: Task[];
+  // @OneToMany(() => Task, (task) => task.user, { cascade: true })
+  // tasks: Task[];
 
   @CreateDateColumn()
   createdAt: Date;

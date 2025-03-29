@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './users.entity';
 import { UserRepository } from './users.repository';
+import { Task } from 'src/tasks/tasks.entity';
 
 @Injectable()
 export class UsersService {
@@ -44,13 +45,18 @@ export class UsersService {
     return 'User deleted successfully';
   }
 
-  async assignRole(userId: number, role: UserRole, adminId: number): Promise<User> {
+  async assignRole(userId: number, adminId: number): Promise<User> {
     const admin = await this.findOneById(adminId);
     if (admin.role !== UserRole.ADMIN) {
       throw new ForbiddenException('Only admins can assign roles');
     }
 
-    await this.userRepository.update(userId, { role });
+    await this.userRepository.update(userId, { role: UserRole.ADMIN });
     return this.findOneById(userId);
+  }
+
+  async findUserTasks(userId: number): Promise<Task[]> {
+    const user = await this.findOneById(userId)
+    return user.tasks
   }
 }

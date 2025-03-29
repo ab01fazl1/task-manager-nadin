@@ -7,6 +7,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UserRepository } from 'src/users/users.repository';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto): Promise<User> {
-    const { username, email, phoneNumber, password } = registerDto;
+    const { username, email, phoneNumber, password, role } = registerDto;
 
     const existingUser = await this.userRepository.findOne({
       where: [{ email }, { phoneNumber }, { username }],
@@ -37,7 +38,7 @@ export class AuthService {
       email,
       phoneNumber,
       password: hashedPassword,
-      role: UserRole.USER,
+      role: role ? UserRole.ADMIN : UserRole.USER,
     });
 
     return await this.userRepository.save(user);
