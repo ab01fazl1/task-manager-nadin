@@ -1,9 +1,11 @@
-import { Controller, Get, Param, Put, Delete, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Param, Put, Delete, Body, UseGuards, Request, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { User, UserRole } from './users.entity';
-import { AdminGuard } from '../auth/admin.guard';
+import { AdminGuard } from './middleware/admin.guard';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -11,18 +13,23 @@ import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 @UseGuards(AuthGuard('jwt'))
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @ApiOperation({ summary: 'Get user by ID' })
-  @Get(':id')
-  async getUserById(@Param('id') id: number) {
-    return this.usersService.findOneById(id);
-  }
+    
+    @ApiOperation({summary: "register user or admin"})
+    @Post('register')
+    async register(@Body() registerDto: RegisterDto) {
+      return this.usersService.register(registerDto);
+    }
+  
+    @ApiOperation({summary: "login via user and pass"})
+    @Post('login')
+    async login(@Body() loginDto: LoginDto) {
+      return this.usersService.login(loginDto);
+    }
 
   @ApiOperation({ summary: 'Assign role (Admin only)' })
   @Put(':id/role')
   @UseGuards(AdminGuard)
   async assignRole(@Param('id') userId: number, @Request() req) {
-    console.log(req)
     return this.usersService.assignRole(userId, req.user.id);
   }
 

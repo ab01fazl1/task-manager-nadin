@@ -32,8 +32,6 @@ export class User {
     { eager: true , cascade: true},
   )
   tasks: Task[];
-  // @OneToMany(() => Task, (task) => task.user, { cascade: true })
-  // tasks: Task[];
 
   @CreateDateColumn()
   createdAt: Date;
