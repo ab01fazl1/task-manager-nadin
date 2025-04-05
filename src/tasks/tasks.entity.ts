@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, Relation } from 'typeorm';
 import { User } from '../users/users.entity';
 
 @Entity()
@@ -15,14 +15,13 @@ export class Task {
   @Column({ nullable: true })
   attachment: string;
 
-// bad realationship design, chnage later, also change in user entity
-  @ManyToOne(
-    () => User,
-    user => user.tasks,
-    { eager: false },
-  )
-  user: User;
+  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' }) 
+  @JoinColumn({ name: 'userId' })
+  user: Relation<User>;
 
+  @Column({ name: 'userId' })
+  userId: number; // Foreign key column
+  
   @CreateDateColumn()
   createdAt: Date;
 
