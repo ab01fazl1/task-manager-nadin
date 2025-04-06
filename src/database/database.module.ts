@@ -8,22 +8,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TypeOrmModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql',
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
+        host: configService.get<string>('DB_HOST'),
+        port: configService.get<number>('DB_PORT'), // Use get<number>() for numerical values
+        username: configService.get<string>('DB_USER'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_NAME'),
         autoLoadEntities: true,
         synchronize: true,
-        // host: '127.0.0.1',
-        // port: 3306,
-        // username: 'root',
-        // password: 'mothertrucker',
-        // database: 'task_manager_nadin',
       }),
-      inject: [ConfigService],  // Inject ConfigService here
+      inject: [ConfigService], // Correctly injecting ConfigService
     }),
   ],
 })
-
 export class DatabaseModule {}
