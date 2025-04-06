@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Task } from './tasks.entity';
 import { User } from '../users/users.entity';
 import { CreateTaskDto } from './dto/create.task.dto';
-import { PaginationDto } from './dto/pagination.dto';
 import { UpdateTaskDto } from './dto/update.task.dto';
 
 @Injectable()

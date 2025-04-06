@@ -97,9 +97,4 @@ export class UsersService {
     await this.userRepository.update(userId, { role: UserRole.ADMIN });
     return this.findOneById(userId);
   }
-
-  async findUserTasks(userId: number): Promise<Task[]> {
-    const user = await this.findOneById(userId)
-    return user.tasks
-  }
 }

@@ -5,6 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateTaskDto } from './dto/create.task.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { UpdateTaskDto } from './dto/update.task.dto';
+import { User } from 'src/users/users.entity';
 
 @ApiTags('Tasks')
 @ApiBearerAuth()
@@ -22,8 +23,11 @@ export class TasksController {
   @ApiOperation({ summary: 'Get current users tasks' })
   @Get()
   async getUserTasks(@Request() req, @Query(ValidationPipe) paginationDto: PaginationDto) {
-    const { page, limit } = paginationDto;
-    return this.tasksService.getUserTasks(req.user, page, limit);
+    if (paginationDto) {
+      const { page, limit } = paginationDto;
+      return this.tasksService.getUserTasks(req.user, page, limit);
+    }
+    return this.tasksService.getUserTasks(req.user);
   }
 
   @ApiOperation({ summary: 'Update task: user can update their task' })
