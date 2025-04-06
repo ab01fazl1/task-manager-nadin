@@ -11,7 +11,7 @@
 This is the backend API for a simple Task Manager application, built using [NestJS](https://nestjs.com/), a progressive Node.js framework for building efficient and scalable server-side applications. It provides functionalities for managing tasks and associating them with users.
 
 
-# Note that this project is mainly developed as a testing task for a job position in Nadin Soft.
+# Note that this project is mainly developed as a testing task for a job position at Nadin Soft.
 # Task Manager Backend with NestJS
 
 [![NestJS](https://img.shields.io/badge/-NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white)](https://nestjs.com/)
